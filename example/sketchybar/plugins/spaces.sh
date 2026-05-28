@@ -27,6 +27,7 @@ if [[ -z "$provider" ]]; then
 fi
 export SPACES_PROVIDER="$provider"
 
+# Legacy cache migration (remove after 2026-12 once older configs are unlikely).
 cache_file="${SPACES_CACHE_FILE:-${TMPDIR:-/tmp}/sketchybar-spaces-items}"
 legacy_cache="${TMPDIR:-/tmp}/barik-space-items"
 if [[ -z "${SPACES_CACHE_FILE:-}" && -f "$legacy_cache" && ! -f "$cache_file" ]]; then
@@ -291,7 +292,8 @@ update_items() {
   printf "%s" "$new_items" > "$cache_file"
 }
 
-# Update on SketchyBar events (including update_freq "routine" and manual "forced").
+# Update on initial run (empty SENDER), update_freq ("routine"), manual refresh ("forced"),
+# and the subscribed SketchyBar events for space/window changes.
 case "$SENDER" in
   "" | "routine" | "forced" | "space_change" | "front_app_switched" | "window_focus" | "display_change")
     update_items
