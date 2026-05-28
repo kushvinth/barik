@@ -291,7 +291,7 @@ update_items() {
   printf "%s" "$new_items" > "$cache_file"
 }
 
-# "routine"/"forced" are used by SketchyBar for update_freq and manual triggers.
+# Update on SketchyBar events (including update_freq "routine" and manual "forced").
 case "$SENDER" in
   "" | "routine" | "forced" | "space_change" | "front_app_switched" | "window_focus" | "display_change")
     update_items
