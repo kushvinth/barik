@@ -217,10 +217,11 @@ while IFS=$'\t' read -r space_id safe_id focused label; do
 
   label="${label//$'\n'/ }"
   click_script=""
+  escaped_space_id="$(printf '%q' "$space_id")"
   if [[ "$provider" == "yabai" ]]; then
-    click_script="yabai -m space --focus \"$space_id\""
+    click_script="yabai -m space --focus ${escaped_space_id}"
   elif [[ "$provider" == "aerospace" ]]; then
-    click_script="aerospace workspace \"$space_id\""
+    click_script="aerospace workspace ${escaped_space_id}"
   fi
 
   if ! grep -Fxq "$item" <<< "$old_items"; then
