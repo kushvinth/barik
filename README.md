@@ -138,7 +138,7 @@ Currently, you can customize the order of widgets (time, indicators, etc.) and a
 
 ### SketchyBar spaces example
 
-If you want the Barik-style space animations in SketchyBar, see `example/sketchybar`. It includes a minimal `sketchybarrc` and a `plugins/spaces.sh` script that mirrors Barik’s space layout (spaces, windows, and focused window title) using yabai or AeroSpace.
+If you want similar space animations in SketchyBar, see `example/sketchybar`. It includes a minimal `sketchybarrc` and a `plugins/spaces.sh` script that mirrors the spaces layout (spaces, windows, and focused window title) using yabai or AeroSpace.
 
 ## Future Plans
 
