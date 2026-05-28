@@ -48,9 +48,12 @@ always_display = [
 ]
 
 def run(cmd):
-    return subprocess.check_output(cmd).decode()
+    try:
+        return subprocess.check_output(cmd, stderr=subprocess.DEVNULL).decode()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return ""
 
-def safe_id(space_id: str) -> str:
+def sanitize_space_id(space_id: str) -> str:
     return re.sub(r"[^A-Za-z0-9_-]", "_", space_id)
 
 def app_abbr(app):
@@ -68,8 +71,12 @@ def sort_key(space_id):
 spaces = []
 
 if provider == "yabai":
-    spaces_json = json.loads(run(["yabai", "-m", "query", "--spaces"]))
-    windows_json = json.loads(run(["yabai", "-m", "query", "--windows"]))
+    spaces_raw = run(["yabai", "-m", "query", "--spaces"])
+    windows_raw = run(["yabai", "-m", "query", "--windows"])
+    if not spaces_raw or not windows_raw:
+        sys.exit(0)
+    spaces_json = json.loads(spaces_raw)
+    windows_json = json.loads(windows_raw)
     windows = [
         w for w in windows_json
         if not w.get("is-hidden") and not w.get("is-floating") and not w.get("is-sticky")
@@ -96,20 +103,26 @@ if provider == "yabai":
         space["windows"].sort(key=lambda w: w.get("stack_index", 0))
     spaces = list(space_map.values())
 elif provider == "aerospace":
-    spaces_json = json.loads(run([
+    spaces_raw = run([
         "aerospace", "list-workspaces", "--all", "--json",
-    ]))
-    focused_spaces = json.loads(run([
+    ])
+    focused_raw = run([
         "aerospace", "list-workspaces", "--focused", "--json",
-    ]))
-    focused_space_id = focused_spaces[0]["workspace"] if focused_spaces else None
-    windows_json = json.loads(run([
+    ])
+    windows_raw = run([
         "aerospace", "list-windows", "--all", "--json", "--format",
         "%{window-id} %{app-name} %{window-title} %{workspace}",
-    ]))
-    focused_windows = json.loads(run([
+    ])
+    focused_windows_raw = run([
         "aerospace", "list-windows", "--focused", "--json",
-    ]))
+    ])
+    if not spaces_raw or not focused_raw or not windows_raw or not focused_windows_raw:
+        sys.exit(0)
+    spaces_json = json.loads(spaces_raw)
+    focused_spaces = json.loads(focused_raw)
+    focused_space_id = focused_spaces[0]["workspace"] if focused_spaces else None
+    windows_json = json.loads(windows_raw)
+    focused_windows = json.loads(focused_windows_raw)
     focused_window_id = focused_windows[0].get("window-id") if focused_windows else None
     space_map = {
         s["workspace"]: {
@@ -177,7 +190,7 @@ for space in spaces:
                     display = display[:max_len] + "..."
                 parts.append(display)
     label = "  ".join([p for p in parts if p])
-    print(f"{space['id']}\t{safe_id(space['id'])}\t{1 if space.get('focused') else 0}\t{label}")
+    print(f"{space['id']}\t{sanitize_space_id(space['id'])}\t{1 if space.get('focused') else 0}\t{label}")
 PY
 )"
 
