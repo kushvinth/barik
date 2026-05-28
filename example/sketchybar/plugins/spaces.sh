@@ -28,6 +28,10 @@ fi
 export SPACES_PROVIDER="$provider"
 
 cache_file="${SPACES_CACHE_FILE:-${TMPDIR:-/tmp}/sketchybar-spaces-items}"
+legacy_cache="${TMPDIR:-/tmp}/barik-space-items"
+if [[ -z "${SPACES_CACHE_FILE:-}" && -f "$legacy_cache" && ! -f "$cache_file" ]]; then
+  mv "$legacy_cache" "$cache_file" >/dev/null 2>&1 || true
+fi
 item_prefix="${SPACES_ITEM_PREFIX:-space}"
 
 fetch_entries() {

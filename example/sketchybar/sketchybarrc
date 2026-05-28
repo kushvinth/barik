@@ -3,7 +3,7 @@
 # SketchyBar spaces widget.
 # Copy this file to ~/.config/sketchybar/sketchybarrc or source it from your existing config.
 
-PLUGIN_DIR="${PLUGIN_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)/plugins}"
+PLUGIN_DIR="${PLUGIN_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/plugins}"
 
 export SPACES_PROVIDER="${SPACES_PROVIDER:-auto}" # auto, yabai, aerospace
 export SPACES_ITEM_PREFIX="${SPACES_ITEM_PREFIX:-space}"
