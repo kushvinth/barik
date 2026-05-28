@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Barik-style spaces widget for SketchyBar.
+# Copy this file to ~/.config/sketchybar/sketchybarrc or source it from your existing config.
+
+PLUGIN_DIR="${BARIK_SPACES_PLUGIN_DIR:-$(cd "$(dirname "$0")" && pwd)/plugins}"
+
+export BARIK_SPACES_PROVIDER="${BARIK_SPACES_PROVIDER:-auto}" # auto, yabai, aerospace
+export BARIK_SPACE_ITEM_PREFIX="${BARIK_SPACE_ITEM_PREFIX:-barik.space}"
+export BARIK_SPACES_UPDATE_FREQ="${BARIK_SPACES_UPDATE_FREQ:-1}"
+
+export BARIK_SPACE_SHOW_KEY="${BARIK_SPACE_SHOW_KEY:-true}"
+export BARIK_WINDOW_SHOW_TITLE="${BARIK_WINDOW_SHOW_TITLE:-true}"
+export BARIK_TITLE_MAX_LENGTH="${BARIK_TITLE_MAX_LENGTH:-50}"
+export BARIK_ALWAYS_DISPLAY_APP_NAME_FOR="${BARIK_ALWAYS_DISPLAY_APP_NAME_FOR:-Mail,Chrome,Arc}"
+export BARIK_SHOW_EMPTY_SPACES="${BARIK_SHOW_EMPTY_SPACES:-false}"
+
+export BARIK_SPACE_ACTIVE_COLOR="${BARIK_SPACE_ACTIVE_COLOR:-0xCCFFFFFF}"
+export BARIK_SPACE_INACTIVE_COLOR="${BARIK_SPACE_INACTIVE_COLOR:-0x66FFFFFF}"
+export BARIK_SPACE_TEXT_COLOR="${BARIK_SPACE_TEXT_COLOR:-0xE6000000}"
+export BARIK_SPACE_TEXT_COLOR_FOCUSED="${BARIK_SPACE_TEXT_COLOR_FOCUSED:-0xE6000000}"
+export BARIK_SPACE_SHADOW_COLOR="${BARIK_SPACE_SHADOW_COLOR:-0x33000000}"
+
+export BARIK_SPACE_FONT="${BARIK_SPACE_FONT:-SF Pro:Semibold:13}"
+export BARIK_SPACE_BACKGROUND_HEIGHT="${BARIK_SPACE_BACKGROUND_HEIGHT:-28}"
+export BARIK_SPACE_CORNER_RADIUS="${BARIK_SPACE_CORNER_RADIUS:-8}"
+export BARIK_SPACE_LABEL_PADDING="${BARIK_SPACE_LABEL_PADDING:-10}"
+export BARIK_SPACE_ICON_GAP="${BARIK_SPACE_ICON_GAP:-2}"
+
+sketchybar --add item barik.spaces_updater left \
+  --set barik.spaces_updater \
+  drawing=off \
+  script="$PLUGIN_DIR/spaces.sh" \
+  update_freq="$BARIK_SPACES_UPDATE_FREQ" \
+  --subscribe barik.spaces_updater space_change front_app_switched window_focus display_change
+
+"$PLUGIN_DIR/spaces.sh"

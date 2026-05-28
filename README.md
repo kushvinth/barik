@@ -136,6 +136,10 @@ blur = 3                                     # background type: from 1 to 6 for 
 
 Currently, you can customize the order of widgets (time, indicators, etc.) and adjust some of their settings. Soon, you’ll also be able to add custom widgets and completely change **barik**'s appearance—making it almost unrecognizable (hello, r/unixporn!).
 
+### SketchyBar spaces example
+
+If you want the Barik-style space animations in SketchyBar, see `example/sketchybar`. It includes a minimal `sketchybarrc` and a `plugins/spaces.sh` script that mirrors Barik’s space layout (spaces, windows, and focused window title) using yabai or AeroSpace.
+
 ## Future Plans
 
 I'm not planning to stick to minimal functionality—exciting new features are coming soon! The roadmap includes full style customization, the ability to create custom widgets or extend existing ones, and a public **Store** where you can share your styles and widgets.
