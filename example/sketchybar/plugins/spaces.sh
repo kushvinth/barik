@@ -232,11 +232,11 @@ update_items() {
 
   new_items=""
   while IFS=$'\t' read -r space_id safe_id focused label; do
-    local item label_safe click_script escaped_space_id
+    local item click_script escaped_space_id
     item="${item_prefix}.${safe_id}"
     new_items+="${item}"$'\n'
 
-    label_safe="${label//$'\n'/ }"
+    label="${label//$'\n'/ }"
     click_script=""
     escaped_space_id="$(printf '%q' "$space_id")"
     if [[ "$provider" == "yabai" ]]; then
@@ -250,7 +250,7 @@ update_items() {
     fi
 
     sketchybar --set "$item" \
-      label="$label_safe" \
+      label="$label" \
       label.font="${SPACES_FONT:-SF Pro:Semibold:13}" \
       label.color="${SPACES_TEXT_COLOR:-0xE6000000}" \
       label.padding_left="${SPACES_LABEL_PADDING:-10}" \
