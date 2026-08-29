@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# SketchyBar spaces widget.
+# Copy this file to ~/.config/sketchybar/sketchybarrc or source it from your existing config.
+
+PLUGIN_DIR="${PLUGIN_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/plugins}"
+
+export SPACES_PROVIDER="${SPACES_PROVIDER:-auto}" # auto, yabai, aerospace
+export SPACES_ITEM_PREFIX="${SPACES_ITEM_PREFIX:-space}"
+export SPACES_UPDATE_FREQ="${SPACES_UPDATE_FREQ:-1}"
+
+export SPACES_SHOW_KEY="${SPACES_SHOW_KEY:-true}"
+export SPACES_SHOW_WINDOW_TITLE="${SPACES_SHOW_WINDOW_TITLE:-true}"
+export SPACES_TITLE_MAX_LENGTH="${SPACES_TITLE_MAX_LENGTH:-50}"
+export SPACES_ALWAYS_SHOW_APP_FOR="${SPACES_ALWAYS_SHOW_APP_FOR:-Mail,Chrome,Arc}"
+export SPACES_SHOW_EMPTY="${SPACES_SHOW_EMPTY:-false}"
+
+export SPACES_ACTIVE_COLOR="${SPACES_ACTIVE_COLOR:-0xCCFFFFFF}"
+export SPACES_INACTIVE_COLOR="${SPACES_INACTIVE_COLOR:-0x66FFFFFF}"
+export SPACES_TEXT_COLOR="${SPACES_TEXT_COLOR:-0xE6000000}"
+export SPACES_TEXT_COLOR_FOCUSED="${SPACES_TEXT_COLOR_FOCUSED:-0xE6000000}"
+export SPACES_SHADOW_COLOR="${SPACES_SHADOW_COLOR:-0x33000000}"
+
+export SPACES_FONT="${SPACES_FONT:-SF Pro:Semibold:13}"
+export SPACES_BACKGROUND_HEIGHT="${SPACES_BACKGROUND_HEIGHT:-28}"
+export SPACES_CORNER_RADIUS="${SPACES_CORNER_RADIUS:-8}"
+export SPACES_LABEL_PADDING="${SPACES_LABEL_PADDING:-10}"
+export SPACES_ICON_GAP="${SPACES_ICON_GAP:-2}"
+
+sketchybar --add item spaces.updater left \
+  --set spaces.updater \
+  drawing=off \
+  script="$PLUGIN_DIR/spaces.sh" \
+  update_freq="$SPACES_UPDATE_FREQ" \
+  --subscribe spaces.updater space_change front_app_switched window_focus display_change
+
+"$PLUGIN_DIR/spaces.sh"
